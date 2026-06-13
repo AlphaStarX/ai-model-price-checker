@@ -1,0 +1,154 @@
+// ─── Generator & Datasource ──────────────────────────────────
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Developer ───────────────────────────────────────────────
+
+model Developer {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  slug        String   @unique
+  website     String?
+  logoUrl     String?
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  models    Model[]
+  providers Provider[]
+
+  @@index([slug])
+}
+
+// ─── Model ───────────────────────────────────────────────────
+
+model Model {
+  id              String    @id @default(cuid())
+  name            String
+  slug            String    @unique
+  developerId     String
+  description     String?
+  contextWindow   Int?
+  maxOutputTokens Int?
+  releaseDate     DateTime?
+  isExperimental  Boolean   @default(false)
+  isOpenSource    Boolean   @default(false)
+  modelFamily     String?
+  paramSize       String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  developer    Developer         @relation(fields: [developerId], references: [id])
+  capabilities ModelCapability[]
+  pricing      Pricing[]
+
+  @@index([slug])
+  @@index([developerId])
+  @@index([modelFamily])
+  @@index([name])
+  @@index([contextWindow])
+}
+
+// ─── Capability ──────────────────────────────────────────────
+
+model Capability {
+  id    String @id @default(cuid())
+  slug  String @unique
+  label String
+  icon  String?
+
+  models ModelCapability[]
+
+  @@index([slug])
+}
+
+// ─── ModelCapability (junction) ──────────────────────────────
+
+model ModelCapability {
+  id           String @id @default(cuid())
+  modelId      String
+  capabilityId String
+  metadata     Json?
+
+  model      Model      @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  capability Capability @relation(fields: [capabilityId], references: [id], onDelete: Cascade)
+
+  @@unique([modelId, capabilityId])
+  @@index([modelId])
+  @@index([capabilityId])
+}
+
+// ─── Provider ────────────────────────────────────────────────
+
+model Provider {
+  id                         String    @id @default(cuid())
+  name                       String
+  slug                       String    @unique
+  developerId                String?
+  website                    String?
+  docsUrl                    String?
+  logoUrl                    String?
+  description                String?
+  apiFormat                  String?
+  status                     String    @default("active")
+  lastFetchedAt              DateTime?
+  consecutiveScrapeFailures  Int       @default(0)
+  lastScrapeFailedAt         DateTime?
+  createdAt                  DateTime  @default(now())
+  updatedAt                  DateTime  @updatedAt
+
+  developer Developer? @relation(fields: [developerId], references: [id])
+  pricing   Pricing[]
+
+  @@index([slug])
+  @@index([status])
+}
+
+// ─── Pricing ─────────────────────────────────────────────────
+
+model Pricing {
+  id                          String   @id @default(cuid())
+  modelId                     String
+  providerId                  String
+  inputPricePerMillion        Float
+  outputPricePerMillion       Float
+  cachedInputPricePerMillion  Float?
+  currency                    String   @default("USD")
+  source                      String   @default("api")
+  sourceUrl                   String?
+  lastVerifiedAt              DateTime @default(now())
+  createdAt                   DateTime @default(now())
+  updatedAt                   DateTime @updatedAt
+
+  model    Model    @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  provider Provider @relation(fields: [providerId], references: [id], onDelete: Cascade)
+  history  PricingHistory[]
+
+  @@unique([modelId, providerId])
+  @@index([modelId])
+  @@index([providerId])
+  @@index([inputPricePerMillion])
+  @@index([outputPricePerMillion])
+}
+
+// ─── PricingHistory ──────────────────────────────────────────
+
+model PricingHistory {
+  id                          String   @id @default(cuid())
+  pricingId                   String
+  inputPricePerMillion        Float
+  outputPricePerMillion       Float
+  cachedInputPricePerMillion  Float?
+  recordedAt                  DateTime @default(now())
+
+  pricing Pricing @relation(fields: [pricingId], references: [id], onDelete: Cascade)
+
+  @@index([pricingId, recordedAt])
+}
