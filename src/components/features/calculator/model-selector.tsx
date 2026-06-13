@@ -36,42 +36,15 @@ export function ModelSelector({
   const [isLoading, setIsLoading] = useState(false);
   const [selectedName, setSelectedName] = useState<string | null>(null);
 
-  // Fetch models on search
+  // Fetch models: all when empty, filtered when searching
   useEffect(() => {
-    if (query.length < 1) {
-      // Show top models when no query
-      const timer = setTimeout(async () => {
-        setIsLoading(true);
-        try {
-          const res = await fetch("/api/search?q=gpt");
-          if (res.ok) {
-            const data = await res.json();
-            setModels(
-              data.results
-                ?.filter((r: { type: string }) => r.type === "model")
-                ?.map((r: { slug: string; name: string; subtitle: string }) => ({
-                  slug: r.slug,
-                  name: r.name,
-                  developer: r.subtitle.split(" · ")[0] ?? "",
-                  modelFamily: r.subtitle.split(" · ")[1] ?? null,
-                })) ?? [],
-            );
-          }
-        } catch {
-          // ignore
-        } finally {
-          setIsLoading(false);
-        }
-      }, 100);
-      return () => clearTimeout(timer);
-    }
-
     const timer = setTimeout(async () => {
       setIsLoading(true);
       try {
-        const res = await fetch(
-          `/api/search?q=${encodeURIComponent(query)}`,
-        );
+        const url = query.length < 1
+          ? "/api/search"  // returns all 36 models
+          : `/api/search?q=${encodeURIComponent(query)}`;
+        const res = await fetch(url);
         if (res.ok) {
           const data = await res.json();
           setModels(
@@ -90,8 +63,7 @@ export function ModelSelector({
       } finally {
         setIsLoading(false);
       }
-    }, 200);
-
+    }, query.length < 1 ? 0 : 200);
     return () => clearTimeout(timer);
   }, [query]);
 
