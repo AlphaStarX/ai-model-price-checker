@@ -59,7 +59,7 @@ export function CostChart({ results, className }: CostChartProps) {
                   className={cn(
                     "absolute inset-y-0 left-0 rounded-sm transition-all duration-300",
                     result.isCheapest
-                      ? "bg-emerald-500"
+                      ? "bg-primary"
                       : "bg-primary/60",
                   )}
                   style={{ width: `${Math.max(width, 0.5)}%` }}

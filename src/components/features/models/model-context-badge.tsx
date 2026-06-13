@@ -26,7 +26,7 @@ function getContextTier(tokens: number): "small" | "medium" | "large" | "massive
 }
 
 const tierStyles: Record<string, string> = {
-  massive: "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+  massive: "bg-primary/10 text-primary border-primary/20",
   large: "bg-blue-500/10 text-blue-400 border-blue-500/20",
   medium: "bg-amber-500/10 text-amber-400 border-amber-500/20",
   small: "bg-muted text-muted-foreground border-border",

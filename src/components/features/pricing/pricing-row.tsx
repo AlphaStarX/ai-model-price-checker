@@ -43,7 +43,7 @@ export function PricingRow({
             {entry.provider.name}
           </Link>
           {isCheapest && (
-            <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 text-[10px] py-0 px-1.5 font-medium">
+            <Badge className="bg-primary/10 text-primary border-primary/20 text-[10px] py-0 px-1.5 font-medium">
               Cheapest
             </Badge>
           )}

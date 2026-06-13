@@ -17,7 +17,7 @@ export function ModelCard({ model, className }: ModelCardProps) {
 
   return (
     <Link href={`/models/${model.slug}`} className={cn("group block", className)}>
-      <Card className="h-full transition-all duration-200 hover:border-primary/50 hover:shadow-sm">
+      <Card className="h-full transition-all duration-200 border-border/60 hover:border-primary/30 hover:shadow-[0_0_15px_-3px_oklch(0.7_0.15_185/0.1)]">
         <CardHeader className="pb-3">
           <div className="flex items-start justify-between gap-2">
             <div className="min-w-0">

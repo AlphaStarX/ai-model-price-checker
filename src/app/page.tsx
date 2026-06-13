@@ -1,97 +1,123 @@
 import Link from "next/link";
-import { ArrowRight, Calculator, Search, TrendingUp } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
+import { ArrowRight, Calculator, Layers, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function HomePage() {
   return (
     <div className="flex flex-col">
-      {/* Hero */}
-      <section className="relative flex flex-col items-center justify-center px-4 py-24 sm:py-32 lg:py-40 text-center">
-        <div className="mx-auto max-w-3xl space-y-6">
+      {/* Hero — terminal-style */}
+      <section className="relative scan-lines border-b border-border">
+        <div className="mx-auto max-w-4xl px-4 py-24 sm:py-32 lg:py-40 text-center">
+          {/* Terminal prompt */}
+          <div className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 mb-8">
+            <span className="h-2 w-2 rounded-full bg-primary animate-pulse" />
+            <span className="text-xs font-mono text-muted-foreground">
+              free & open · no accounts · no fees
+            </span>
+          </div>
+
           <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-            Find the{" "}
-            <span className="text-primary">Cheapest AI API</span> Provider
+            AI Model
+            <br />
+            <span className="text-primary">Price Checker</span>
           </h1>
-          <p className="text-lg text-muted-foreground sm:text-xl max-w-2xl mx-auto">
-            Compare real-time pricing for GPT, Claude, Gemini, Llama, and more
-            across every major provider. No accounts. No fees. Just data.
+
+          <p className="mt-6 text-base text-muted-foreground sm:text-lg max-w-xl mx-auto font-mono">
+            $ compare-ai-pricing --model gpt-5.4 --tokens 1M
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
+          <p className="mt-2 text-sm text-muted-foreground/60 max-w-lg mx-auto">
+            Compare real-time API pricing across 15 providers.
+            Find the cheapest way to run any model.
+          </p>
+
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
             <Link
               href="/models"
-              className={cn(buttonVariants({ size: "lg" }), "w-full sm:w-auto")}
+              className={cn(
+                "inline-flex items-center gap-2 rounded-lg bg-primary px-5 py-2.5",
+                "text-sm font-medium text-primary-foreground",
+                "hover:bg-primary/90 transition-colors",
+                "shadow-[0_0_20px_-5px_oklch(0.7_0.15_185/0.3)]",
+              )}
             >
               Browse Models
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="h-4 w-4" />
             </Link>
             <Link
               href="/calculator"
-              className={cn(
-                buttonVariants({ variant: "outline", size: "lg" }),
-                "w-full sm:w-auto",
-              )}
+              className="inline-flex items-center gap-2 rounded-lg border border-border px-5 py-2.5 text-sm font-medium text-foreground hover:bg-card transition-colors"
             >
-              <Calculator className="mr-2 h-4 w-4" />
-              Cost Calculator
+              <Calculator className="h-4 w-4" />
+              Open Calculator
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Stats */}
-      <section className="border-t border-border bg-card/50">
-        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-          <div className="grid grid-cols-2 gap-6 sm:grid-cols-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold sm:text-3xl">18+</div>
-              <div className="text-sm text-muted-foreground">
-                Models Tracked
+      {/* Quick stats */}
+      <section className="border-b border-border">
+        <div className="mx-auto max-w-4xl px-4 py-10">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
+            {[
+              { value: "36", label: "Models Tracked" },
+              { value: "15", label: "Providers" },
+              { value: "11", label: "Developers" },
+              { value: "Daily", label: "Price Updates" },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center space-y-1">
+                <div className="text-2xl font-bold font-mono text-primary tabular-nums">
+                  {stat.value}
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  {stat.label}
+                </div>
               </div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold sm:text-3xl">8+</div>
-              <div className="text-sm text-muted-foreground">Providers</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold sm:text-3xl">9+</div>
-              <div className="text-sm text-muted-foreground">Developers</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold sm:text-3xl">Real-time</div>
-              <div className="text-sm text-muted-foreground">Pricing Data</div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Features */}
-      <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          <div className="space-y-3 rounded-lg border border-border p-6">
-            <Search className="h-8 w-8 text-primary" />
-            <h3 className="font-semibold">Instant Search</h3>
-            <p className="text-sm text-muted-foreground">
-              Search across all models and providers instantly. Press Cmd+K to
-              jump anywhere.
+      {/* Features — clean, icon-led, no marketing fluff */}
+      <section className="mx-auto max-w-4xl px-4 py-20">
+        <div className="grid gap-6 sm:grid-cols-3">
+          <Link
+            href="/models"
+            className="group rounded-lg border border-border bg-card p-6 hover:border-primary/40 transition-all duration-200 cyber-line"
+          >
+            <Search className="h-6 w-6 text-primary mb-3" />
+            <h3 className="font-semibold text-sm mb-1">Search Models</h3>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Find any model by name, developer, or capability. Press{" "}
+              <kbd className="px-1 py-0.5 rounded text-[10px] border border-border bg-muted font-mono">
+                ⌘K
+              </kbd>{" "}
+              to jump anywhere.
             </p>
-          </div>
-          <div className="space-y-3 rounded-lg border border-border p-6">
-            <Calculator className="h-8 w-8 text-primary" />
-            <h3 className="font-semibold">Cost Calculator</h3>
-            <p className="text-sm text-muted-foreground">
-              Enter your token counts and see estimated costs across every
-              provider. Updates instantly.
+          </Link>
+
+          <Link
+            href="/calculator"
+            className="group rounded-lg border border-border bg-card p-6 hover:border-primary/40 transition-all duration-200 cyber-line"
+          >
+            <Calculator className="h-6 w-6 text-primary mb-3" />
+            <h3 className="font-semibold text-sm mb-1">Calculate Costs</h3>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Enter token counts, see estimated cost across every provider.
+              Updates instantly.
             </p>
-          </div>
-          <div className="space-y-3 rounded-lg border border-border p-6">
-            <TrendingUp className="h-8 w-8 text-primary" />
-            <h3 className="font-semibold">Price Tracking</h3>
-            <p className="text-sm text-muted-foreground">
-              Prices are refreshed every 6 hours. See historical changes and
-              spot the best deals.
+          </Link>
+
+          <Link
+            href="/compare"
+            className="group rounded-lg border border-border bg-card p-6 hover:border-primary/40 transition-all duration-200 cyber-line"
+          >
+            <Layers className="h-6 w-6 text-primary mb-3" />
+            <h3 className="font-semibold text-sm mb-1">Compare Models</h3>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Side-by-side pricing comparison. Pick 2–4 models and see who
+              offers the best deal.
             </p>
-          </div>
+          </Link>
         </div>
       </section>
     </div>

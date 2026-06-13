@@ -17,9 +17,9 @@ export function MobileNav({ open, onClose, links }: MobileNavProps) {
   return (
     <Sheet open={open} onOpenChange={onClose}>
       <SheetContent side="left" className="w-[280px] p-0">
-        <SheetHeader className="px-4 pt-6 pb-4 border-b">
-          <SheetTitle className="text-base font-semibold tracking-tight">
-            AI Model Price Checker
+        <SheetHeader className="px-4 pt-6 pb-4 border-b border-border">
+          <SheetTitle className="text-sm font-semibold font-mono text-primary">
+            PriceChecker
           </SheetTitle>
         </SheetHeader>
         <nav className="flex flex-col gap-1 p-3">

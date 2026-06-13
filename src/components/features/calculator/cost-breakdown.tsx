@@ -111,7 +111,7 @@ export function CostBreakdown({
                       {result.providerName}
                     </Link>
                     {result.isCheapest && (
-                      <Badge className="bg-emerald-500/10 text-emerald-400 border-emerald-500/20 text-[10px] py-0 px-1.5 font-medium">
+                      <Badge className="bg-emerald-500/10 text-primary border-emerald-500/20 text-[10px] py-0 px-1.5 font-medium">
                         Cheapest
                       </Badge>
                     )}
@@ -126,7 +126,7 @@ export function CostBreakdown({
                 <TableCell
                   className={cn(
                     "text-right font-mono text-sm tabular-nums font-semibold",
-                    result.isCheapest ? "text-emerald-400" : "text-foreground",
+                    result.isCheapest ? "text-primary" : "text-foreground",
                   )}
                 >
                   ${result.totalCost.toFixed(4)}

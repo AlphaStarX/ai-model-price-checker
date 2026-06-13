@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, Search, X } from "lucide-react";
+import { Menu, Search, X, Terminal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./theme-toggle";
 import { MobileNav } from "./mobile-nav";
@@ -37,33 +37,36 @@ export function Header() {
     <>
       <header
         className={cn(
-          "sticky top-0 z-50 w-full border-b transition-colors",
+          "sticky top-0 z-50 w-full cyber-line transition-colors",
           scrolled
-            ? "border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
-            : "border-transparent bg-background",
+            ? "border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+            : "border-b border-transparent bg-background",
         )}
       >
-        <div className="mx-auto flex h-14 max-w-7xl items-center gap-4 px-4 sm:px-6">
+        <div className="mx-auto flex h-12 max-w-7xl items-center gap-4 px-4 sm:px-6">
           {/* Logo */}
           <Link
             href="/"
-            className="flex items-center gap-2 font-semibold text-foreground hover:opacity-80 transition-opacity"
+            className="flex items-center gap-2 text-foreground hover:text-primary transition-colors shrink-0"
           >
-            <span className="text-base tracking-tight">AI Model Price Checker</span>
+            <Terminal className="h-4 w-4 text-primary" />
+            <span className="text-sm font-semibold tracking-tight font-mono">
+              PriceChecker
+            </span>
           </Link>
 
           {/* Desktop Nav */}
-          <nav className="hidden md:flex items-center gap-1 ml-2">
+          <nav className="hidden md:flex items-center gap-1 ml-4">
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "px-3 py-1.5 text-sm rounded-md transition-colors",
+                  "px-3 py-1.5 text-[13px] rounded-md transition-colors",
                   pathname === link.href ||
                     pathname.startsWith(link.href + "/")
-                    ? "bg-accent text-accent-foreground font-medium"
-                    : "text-muted-foreground hover:text-foreground hover:bg-accent/50",
+                    ? "bg-accent/20 text-primary font-medium"
+                    : "text-muted-foreground hover:text-foreground hover:bg-accent/10",
                 )}
               >
                 {link.label}
@@ -71,16 +74,19 @@ export function Header() {
             ))}
           </nav>
 
-          {/* Right side */}
-          <div className="flex flex-1 items-center justify-end gap-1">
+          {/* Spacer */}
+          <div className="flex-1" />
+
+          {/* Right actions */}
+          <div className="flex items-center gap-1">
             <Button
               variant="ghost"
               size="icon"
-              className="h-9 w-9 text-muted-foreground"
+              className="h-8 w-8 text-muted-foreground hover:text-foreground"
               onClick={() => setSearchOpen(true)}
             >
-              <Search className="h-4 w-4" />
-              <span className="sr-only">Search models</span>
+              <Search className="h-3.5 w-3.5" />
+              <span className="sr-only">Search</span>
             </Button>
 
             <ThemeToggle />
@@ -88,15 +94,15 @@ export function Header() {
             <Button
               variant="ghost"
               size="icon"
-              className="h-9 w-9 md:hidden"
+              className="h-8 w-8 md:hidden text-muted-foreground"
               onClick={() => setMobileOpen(!mobileOpen)}
             >
               {mobileOpen ? (
-                <X className="h-4 w-4" />
+                <X className="h-3.5 w-3.5" />
               ) : (
-                <Menu className="h-4 w-4" />
+                <Menu className="h-3.5 w-3.5" />
               )}
-              <span className="sr-only">Toggle menu</span>
+              <span className="sr-only">Menu</span>
             </Button>
           </div>
         </div>
