@@ -7,6 +7,14 @@ import { Providers } from "./providers";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { SITE_NAME, SITE_DESCRIPTION, SITE_URL } from "@/lib/constants";
+
+function safeMetadataBase(): URL | undefined {
+  try {
+    return new URL(SITE_URL);
+  } catch {
+    return undefined;
+  }
+}
 import "./globals.css";
 
 const geistSans = Geist({
@@ -25,7 +33,7 @@ export const metadata: Metadata = {
     template: `%s — ${SITE_NAME}`,
   },
   description: SITE_DESCRIPTION,
-  metadataBase: new URL(SITE_URL),
+  metadataBase: safeMetadataBase(),
   openGraph: {
     type: "website",
     siteName: SITE_NAME,

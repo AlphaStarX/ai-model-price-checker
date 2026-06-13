@@ -69,5 +69,6 @@ export const DEFAULT_SORT = "name" as const;
 export const SITE_NAME = "AI Model Price Checker";
 export const SITE_DESCRIPTION =
   "Compare AI model API pricing across every major provider. Find the cheapest LLM API for GPT, Claude, Gemini, and more.";
-export const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL || "https://aimodelpricechecker.com";
+const rawUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://aimodelpricechecker.com";
+export const SITE_URL = rawUrl.startsWith("http") ? rawUrl : `https://${rawUrl}`;
+export const SITE_URL_FALLBACK = "https://aimodelpricechecker.com";
